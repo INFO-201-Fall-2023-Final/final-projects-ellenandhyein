@@ -33,11 +33,17 @@ colnames(twenty_df)[colnames(twenty_df) == "Generosity"] <- "Generosity.20"
 colnames(twenty_df)[colnames(twenty_df) == "Perceptions.of.corruption"] <- "Perceptions.of.corruption.20"
 colnames(twenty_df)[colnames(twenty_df) == "Health.life.expendency"] <- "Health.life.expendency.20"
 
-#removing the duplicate columns in the joined data set that were in both initial data sets, to avoid duplicate columns 
+# Summarization data frame
+# Remove duplicate columns
+df$Logged.GDP.per.capita <- NULL
 df$GDP.per.capita.20 <- NULL
+df$GDP.per.capita <- NULL
 df$Healthy.life.expectancy.20 < NULL
 df$Freedom.to.make.life.choices.20 <- NULL
 df$Perceptions.of.corruption.20 <- NULL
+df$Generosity.20 <- NULL
+df$Generosity <- NULL
+df$Social.support <- NULL
 
 #adding a Categorical Column 
 #called Happiness.type to categorize happiness as country has the score over
