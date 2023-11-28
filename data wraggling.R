@@ -2,6 +2,7 @@ library(dplyr)
 library(stringr)
 library(tidyverse)
 
+# Data joining
 eighten_df <- read.csv("2018.csv")
 twenty_df <- read.csv("WHR20_DataForFigure2.1 2.csv")
 suicide_df <- read.csv("Suicide Rate.csv")
