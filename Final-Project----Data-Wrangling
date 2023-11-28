@@ -1,22 +1,64 @@
-# Final-Project----Data-Wrangling
+#Info 201 Team BH: Thao Nguyen, Hyein Hwang
+#Final Project - Data Wrangling 
 library(dplyr)
 library(stringr)
 library(tidyverse)
 
+#Data Joining
 eighten_df <- read.csv("2018.csv")
 twenty_df <- read.csv("WHR20_DataForFigure2.1 2.csv")
-df_suicide <- read.csv("Suicide Rate.csv")
+suicide_df <- read.csv("Suicide Rate.csv")
 
+df <- merge(x= eighten_df, y=twenty_df, by.x= c("Country.or.region"), by.y=c("Country.name"))
+df <- merge(x= df, y=suicide_df, by.x= c("Country.or.region"), by.y= c("Country")) 
+
+#Data Cleaning and Augmentation
+#rename columns to distinguish the ones for 2018 and the ones for 2020.
+#for 2018
 colnames(eighten_df)[colnames(eighten_df) == "Score"] <- "Score.18"
 colnames(eighten_df)[colnames(eighten_df) == "GDP.per.capita"] <- "GDP.per.capita.18"
 colnames(eighten_df)[colnames(eighten_df) == "Social.support"] <- "Social.support.18"
-colnames(eighten_df)[colnames(eighten_df) == "Healthy.life.expectation.x"] <- "Healthy.life.expectation.18"
+colnames(eighten_df)[colnames(eighten_df) == "Health.life.expendency"] <- "Health.life.expendency.18"
+colnames(eighten_df)[colnames(eighten_df) == "Healthy.life.expectation"] <- "Healthy.life.expectation.18"
 colnames(eighten_df)[colnames(eighten_df) == "Freedom.to.make.life.choices"] <- "Freedom.to.make.life.choices.18"
 colnames(eighten_df)[colnames(eighten_df) == "Generosity"] <- "Generosity.18"
 colnames(eighten_df)[colnames(eighten_df) == "Perceptions.of.corruption"] <- "Perceptions.of.corruption.18"
+#for 2020
+colnames(twenty_df)[colnames(twenty_df) == "Ladder.score"] <- "Score.20"
+colnames(twenty_df)[colnames(twenty_df) == "Logged.GDP.per.capita"] <- "GDP.per.capita.20"
+colnames(twenty_df)[colnames(twenty_df) == "social.support"] <- "social.support.20"
+colnames(twenty_df)[colnames(twenty_df) == "Healthy.life.expectation"] <- "Healthy.life.expectation.20"
+colnames(twenty_df)[colnames(twenty_df) == "Freedom.to.make.life.choices"] <- "Freedom.to.make.life.choices.20"
+colnames(twenty_df)[colnames(twenty_df) == "Generosity"] <- "Generosity.20"
+colnames(twenty_df)[colnames(twenty_df) == "Perceptions.of.corruption"] <- "Perceptions.of.corruption.20"
+colnames(twenty_df)[colnames(twenty_df) == "Health.life.expendency"] <- "Health.life.expendency.20"
 
-colnames(df_suicide)[colnames(df_suicide) == "GDP.per.capita"] <- "GDP.per.capita.suicide"
+#removing the duplicate columns in the joined data set that were in both initial data sets, to avoid duplicate columns 
+df$GDP.per.capita.20 <- NULL
+df$Healthy.life.expectancy.20 < NULL
+df$Freedom.to.make.life.choices.20 <- NULL
+df$Perceptions.of.corruption.20 <- NULL
 
-df <- merge(x= eighten_df, y=twenty_df, by.x= c("Country.or.region"), by.y=c("Country.name"))
+#adding a Categorical Column 
+#called Happiness.type to categorize happiness as country has the score over
+#3.5 is selected into group (1) and the ones that are below will be selected 
+#to group (0)
+happiness_type_list <- c()
+for (Country in df$"Score.20"){
+  if (Country >= 3.5){
+    happiness_type_listt <- c(happiness_type_list, 1)
+  }
+  else{
+    happiness_type_list <- c(happiness_type_list, 0)
+  }
+}
+df$Happiness.type <- happiness_type_list
 
-df <- merge(x= df, y=df_suicide, by.x= c("Country.or.region"), by.y= c("Country")) 
+
+#adding Numerical Column 
+#called Happiness.Suicide.Diff which is the difference between
+#the world happiness and the suicide rates in 2020 to get an idea of the relevance between
+#happiness rates and suicides rates in each country.
+diff_list <- df$Score.20 - df$Suicide.rate
+df$Happiness.Suicide.Difff <- diff_list
+
