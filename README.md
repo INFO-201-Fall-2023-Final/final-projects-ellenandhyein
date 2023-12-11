@@ -82,14 +82,17 @@ navbarPage("World Happiness",
 
 server <- function(input, output) {
   output$intro <- renderText({
-    "Happiness is one of the most important factors of life that fulfill people’s satisfaction, tranquility, and deep sleep. Happiness level is calculated by GDP per capita, social support, health life expectancy, freedom to make life choices, generosity etc.
-By comparing the world happiness level, this will help us understand how the world happiness level changed before and after the COVID-19. 
+"Happiness is one of the most important factors of life that fulfill people’s satisfaction, tranquility, and deep sleep. 
+Happiness level is calculated by GDP per capita, social support, health life expectancy, freedom to make life choices, generosity etc. 
+Comparing the factors of world happiness level before and after COVID-19, it will help us understand which factor affected the most. 
+On top of that, we will investigate relation between the suicide rate and the trends in happiness levels. 
+We are using a variety of ways to understand the happiness level better. 
+Our goal is to figure out which element has changed, especially during tough times like the COVID-19 pandemic. 
 
-In this project, we will mainly use the 2018 and 2020 World Happiness Index report. On top of that, we will examine suicide rate report for correlating element. 
-
-(plot1) What/How is the difference of Happiness level changed before and after the COVD-19?
-(plot2) Which factor impacted the most for Happiness level after COVID-19?
-(plot3) How suicide rate correspond to the overall trend of Happiness level? / Investigating the nexus between suicide rates and the overarching trends in happiness levels. This multifaceted approach aims to unravel the nuanced dynamics of happiness, shedding light on its evolution amidst global challenges like the COVID-19 pandemic."
+In this project, we will use the 2018 and 2020 World Happiness Index report and suicide rate report as a correlating element. 
+Which factor impacted the most for Happiness level before and after COVID-19? 
+How suicide rate correspond to Happiness level in 2018? 
+How suicide rate correspond to Happiness level in 2020?"
   })
 
   filtered_df <- reactive({
@@ -200,3 +203,4 @@ Moreover, interactive tool allowed us to observe patterns and potential correlat
 
 # Run the application 
 shinyApp(ui = ui, server = server)
+
